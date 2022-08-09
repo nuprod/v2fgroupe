@@ -64,8 +64,10 @@ class nuprod_print_product(models.Model):
                 label = zplNuprod.Label(51, 30, dpmm)
                 height = 0
                 char_size = 6
+                margeGauche = 10
+                largeurEtiquette = 102
                 barcode_width = 3.5
-                label.origin(5, 4, '0')
+                label.origin((margeGauche + (largeurEtiquette - (len(record.default_code) * char_size)) / 2), 4, '0')
                 label.write_text(record.default_code, char_height=char_size, char_width=char_size, justification='C')
                 label.endorigin()
                 height += 10
