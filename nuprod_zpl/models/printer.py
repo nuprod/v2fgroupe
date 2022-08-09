@@ -60,19 +60,19 @@ class nuprod_print_product(models.Model):
         for record in self:
             if record.barcode:
                 dpmm = 8
-                l = zpl.Label(51, 30, dpmm)
+                label = zpl.Label(51, 30, dpmm)
                 height = 0
                 char_size = 6
                 barcode_width = 3.5
-                l.origin(25, 4, '0')
-                l.write_text(record.default_code, char_height=char_size, char_width=char_size, justification='C')
-                l.endorigin()
+                label.origin(25, 4, '0')
+                label.write_text(record.default_code, char_height=char_size, char_width=char_size, justification='C')
+                label.endorigin()
                 height += 10
                 # l.origin((len(record.barcode)*barcode_width)/2,height)
-                l.origin(27, height)
-                l.write_barcode(height=60, barcode_type='Q', magnification=6)
-                l.write_text(record.barcode, qrcode=True)
-                l.endorigin()
+                label.origin(27, height)
+                label.write_barcode(height=60, barcode_type='Q', magnification=6)
+                label.write_text(record.barcode, qrcode=True)
+                label.endorigin()
                 connection_printer = self.env["epl.printer"].connection(1)
                 self.env["epl.printer"].print_report(1, (bytes(l.dumpZPL(), "utf8")))
             else:
