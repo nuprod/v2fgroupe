@@ -18,7 +18,7 @@ class nuprod_zpl(models.Model):
     logger = logging.getLogger(__name__)
     logger.warning('Nuprod ZPL Load')
 
-    def connection(self,printer_id):
+    def connection(self, printer_id):
         printer = self.browse(printer_id)
 
         ip = printer.ip_address
@@ -60,21 +60,21 @@ class nuprod_print_product(models.Model):
         for record in self:
             if record.barcode:
                 dpmm = 8
-                l = zpl.Label(51,30,dpmm)
+                l = zpl.Label(51, 30, dpmm)
                 height = 0
                 char_size = 6
                 barcode_width = 3.5
-                l.origin(25,4,'0')
+                l.origin(25, 4, '0')
                 l.write_text(record.default_code, char_height=char_size, char_width=char_size, justification='C')
                 l.endorigin()
                 height += 10  
-                #l.origin((len(record.barcode)*barcode_width)/2,height)
-                l.origin(27,height)
-                l.write_barcode(height=60, barcode_type='Q',magnification=6)
-                l.write_text(record.barcode,qrcode=True)
+                # l.origin((len(record.barcode)*barcode_width)/2,height)
+                l.origin(27, height)
+                l.write_barcode(height=60, barcode_type='Q', magnification=6)
+                l.write_text(record.barcode)
                 l.endorigin()
                 connection_printer = self.env["epl.printer"].connection(1)
-                self.env["epl.printer"].print_report(1,(bytes(l.dumpZPL(), "utf8")))
+                self.env["epl.printer"].print_report(1, (bytes(l.dumpZPL(), "utf8")))
             else:
                 raise UserError(
                             _(
