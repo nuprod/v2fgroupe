@@ -64,11 +64,10 @@ class nuprod_print_product(models.Model):
                 height = 0
                 char_size = 6
                 barcode_width = 3.5
-                label.origin(25, 4, '0')
+                label.origin(22, 4, '0')
                 label.write_text(record.default_code, char_height=char_size, char_width=char_size, justification='C')
                 label.endorigin()
                 height += 10
-                # l.origin((len(record.barcode)*barcode_width)/2,height)
                 label.origin(27, height)
                 label.write_barcode(height=60, barcode_type='Q', magnification=6)
                 label.write_text(record.barcode, qrcode=True)
@@ -76,9 +75,14 @@ class nuprod_print_product(models.Model):
                 connection_printer = self.env["epl.printer"].connection(1)
                 self.env["epl.printer"].print_report(1, (bytes(label.dumpZPL(), "utf8")))
             else:
-                raise UserError(
-                            _(
-                                "Pas de code barre sur le produit " + str(record.default_code) + "\n" +
-                                "Veuillez en définir un pour imprimer l'étiquette"
-                            )
-                        )
+                title = _("Barcode problem on product")
+                message = _("No barcode on product " + str(record.name))
+                return {
+                    'type': 'ir.actions.client',
+                    'tag': 'display_notification',
+                    'params': {
+                        'title': title,
+                        'message': message,
+                        'sticky': False,
+                    }
+                }
