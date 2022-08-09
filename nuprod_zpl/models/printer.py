@@ -57,6 +57,7 @@ class nuprod_print_product(models.Model):
 
     def print_label_nuprod(self):
         logger = logging.getLogger(__name__)
+        product_without_barcode = []
         for record in self:
             if record.barcode:
                 dpmm = 8
@@ -75,14 +76,18 @@ class nuprod_print_product(models.Model):
                 connection_printer = self.env["epl.printer"].connection(1)
                 self.env["epl.printer"].print_report(1, (bytes(label.dumpZPL(), "utf8")))
             else:
+                product_without_barcode.append(str(record.name))
+
+        if len(product_without_barcode) > 0:
+            for error_product in product_without_barcode:
                 title = _("Barcode problem on product")
-                message = _("No barcode on product " + str(record.name))
+                message = _("No barcode on product " + error_product)
                 return {
                     'type': 'ir.actions.client',
                     'tag': 'display_notification',
                     'params': {
                         'title': title,
                         'message': message,
-                        'sticky': False,
+                        'sticky': True,
                     }
                 }
