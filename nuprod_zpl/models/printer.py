@@ -65,7 +65,7 @@ class nuprod_print_product(models.Model):
                 height = 0
                 char_size = 6
                 barcode_width = 3.5
-                label.origin(0, 4, '0')
+                label.origin(5, 4, '0')
                 label.write_text(record.default_code, char_height=char_size, char_width=char_size, justification='C')
                 label.endorigin()
                 height += 10
