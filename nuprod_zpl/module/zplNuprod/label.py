@@ -44,7 +44,7 @@ class Label:
         justification is 0 for left, 1 for right, and 2 for auto
         """
         self.code += "^LH%i,%i" % (x * self.dpmm, y * self.dpmm)
-        if justification != None:
+        if justification is not None:
             assert justification in '012', "invalid justification"
             self.code += ',' + justification
 
@@ -53,8 +53,8 @@ class Label:
         new block located at x and y (in millimeters)
         justification is 0 for left, 1 for right, and 2 for auto
         """
-        self.code += "^FO%i,%i" % (x*self.dpmm, y*self.dpmm)
-        if justification != None:
+        self.code += "^FO%i,%i" % (x * self.dpmm, y * self.dpmm)
+        if justification is not None:
             assert justification in '012', "invalid justification"
             self.code += ',' + justification
 
@@ -77,7 +77,7 @@ class Label:
 
         width of textblock in millimeters
         """
-        assert justification in ['L','R','C','J']
+        assert justification in ['L', 'R', 'C', 'J']
         self.code += "^FB%i,%i,%i,%s,%i" % (width*self.dpmm, lines, 0, justification, 0)
 
     def write_text(self, text, char_height=None, char_width=None, font='0', orientation='N',
