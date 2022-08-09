@@ -3,7 +3,7 @@
 from odoo import models, fields, api, _
 import logging
 import socket
-import zplNuprod
+from . import zplNuprod
 from odoo.exceptions import UserError
 
 class nuprod_zpl(models.Model):
