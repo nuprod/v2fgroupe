@@ -65,7 +65,7 @@ class nuprod_print_product(models.Model):
                 height = 0
                 char_size = 6
                 barcode_width = 3.5
-                label.origin(22, 4, '0')
+                label.origin(0, 4, '0')
                 label.write_text(record.default_code, char_height=char_size, char_width=char_size, justification='C')
                 label.endorigin()
                 height += 10
@@ -79,15 +79,14 @@ class nuprod_print_product(models.Model):
                 product_without_barcode.append(str(record.name))
 
         if len(product_without_barcode) > 0:
-            for error_product in product_without_barcode:
-                title = _("Barcode problem on product")
-                message = _("No barcode on product " + error_product)
-                return {
-                    'type': 'ir.actions.client',
-                    'tag': 'display_notification',
-                    'params': {
-                        'title': title,
-                        'message': message,
-                        'sticky': True,
-                    }
+            title = _("Barcode problem on product")
+            message = _("No barcode on product " + str(product_without_barcode))
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': title,
+                    'message': message,
+                    'sticky': True,
                 }
+            }
