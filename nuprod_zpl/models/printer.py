@@ -3,7 +3,7 @@
 from odoo import models, fields, api, _
 import logging
 import socket
-import zpl
+from nuprod_zpl.module.zplNuprod import zpl as zpl
 from odoo.exceptions import UserError
 
 class nuprod_zpl(models.Model):
@@ -14,7 +14,7 @@ class nuprod_zpl(models.Model):
     name = fields.Char('name', size=256, required=True)
     ip_address = fields.Char('Ip Address', size=32, required=True)
     port = fields.Integer('Port', required=True)
-    
+
     logger = logging.getLogger(__name__)
     logger.warning('Nuprod ZPL Load')
 
@@ -74,7 +74,7 @@ class nuprod_print_product(models.Model):
                 label.write_text(record.barcode, qrcode=True)
                 label.endorigin()
                 connection_printer = self.env["epl.printer"].connection(1)
-                self.env["epl.printer"].print_report(1,(bytes(label.dumpZPL(), "utf8")))
+                self.env["epl.printer"].print_report(1, (bytes(label.dumpZPL(), "utf8")))
             else:
                 raise UserError(
                             _(
