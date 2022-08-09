@@ -74,7 +74,7 @@ class nuprod_print_product(models.Model):
                 label.write_text(record.barcode, qrcode=True)
                 label.endorigin()
                 connection_printer = self.env["epl.printer"].connection(1)
-                self.env["epl.printer"].print_report(1, (bytes(label.dumpZPL(), "utf8")))
+                self.env["epl.printer"].print_report(1,(bytes(label.dumpZPL(), "utf8")))
             else:
                 raise UserError(
                             _(
