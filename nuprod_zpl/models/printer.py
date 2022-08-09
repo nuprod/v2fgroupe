@@ -61,12 +61,11 @@ class nuprod_print_product(models.Model):
         for record in self:
             if record.barcode:
                 dpmm = 8
-                label = zplNuprod.Label(51, 30, dpmm)
+                label = zplNuprod.Label(56, 30, dpmm)
                 height = 0
                 char_size = 6
                 margeGauche = 10
                 largeurEtiquette = 102
-                barcode_width = 3.5
                 if (margeGauche + (largeurEtiquette - (len(record.default_code) * char_size)) / 2) < 0:
                     x_Origin = margeGauche
                 else:
