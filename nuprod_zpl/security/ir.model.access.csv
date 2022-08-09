@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_epl_printer,access_epl_printer,model_epl_printer,base.group_user,1,1,1,1
+access_epl_report,access_epl_report,model_epl_report,base.group_user,1,1,1,1
