@@ -23,6 +23,5 @@
         'security/ir.model.access.csv',
         'views/report_socket_view.xml',
         'views/stock_product_view.xml',
-        'views/templates.xml',
     ],
 }

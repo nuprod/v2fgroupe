@@ -13,6 +13,7 @@
                     <field name="name"/>
                     <field name="ip_address"/>
                     <field name="port"/>
+                    <field name="companyLocalisation"/>
                 </tree>
             </field>
         </record>

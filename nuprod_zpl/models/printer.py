@@ -14,7 +14,11 @@ class nuprod_zpl(models.Model):
     name = fields.Char('name', size=256, required=True)
     ip_address = fields.Char('Ip Address', size=32, required=True)
     port = fields.Integer('Port', required=True)
-
+    companyLocalisation = fields.Many2one(
+        comodel_name="res.company",
+        inverse_name="name",
+        string="Localisation in company")
+    
     logger = logging.getLogger(__name__)
     logger.warning('Nuprod ZPL Load')
 
@@ -33,11 +37,14 @@ class nuprod_zpl(models.Model):
         }
         return res
 
-    def print_report(self, id, data):
+    def print_report(self, idCompany, data):
+        logger = logging.getLogger(__name__)
         """Print epl report
         :param data: unicode string to print
         """
-        printer = self.browse(id)
+        printer = self.search([('companyLocalisation', "=", idCompany)])
+        logger.warning("Id imprimante:" + str(printer.id))
+
         if not printer:
             raise Warning(_("Printer not found"))
         port = printer.port
@@ -54,7 +61,7 @@ class nuprod_zpl(models.Model):
 class nuprod_print_product(models.Model):
 
     _inherit = "product.template"
-
+    
     def print_label_nuprod(self):
         logger = logging.getLogger(__name__)
         product_without_barcode = []
