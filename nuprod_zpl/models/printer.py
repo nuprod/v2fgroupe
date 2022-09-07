@@ -3,7 +3,7 @@
 from odoo import models, fields, api, _
 import logging
 import socket
-from . import zplNuprod
+import zpl
 from odoo.exceptions import UserError
 
 class nuprod_zpl(models.Model):
@@ -68,7 +68,7 @@ class nuprod_print_product(models.Model):
         for record in self:
             if record.barcode:
                 dpmm = 8
-                label = zplNuprod.Label(56, 30, dpmm)
+                label = zpl.Label(56, 30, dpmm)
                 height = 0
                 char_size = 6
                 margeGauche = 10
