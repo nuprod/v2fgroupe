@@ -86,7 +86,7 @@ class nuprod_print_product(models.Model):
                 label.endorigin()
                 connection_printer = self.env["epl.printer"].connection(1)
                 logger.warning(connection_printer)
-                self.env["epl.printer"].print_report(2, (bytes(label.dumpZPL(), "utf8")))
+                self.env["epl.printer"].print_report(self.env.company.id, (bytes(label.dumpZPL(), "utf8")))
             else:
                 product_without_barcode.append(str(record.name))
 
