@@ -17,7 +17,7 @@
     "license": "AGPL-3",
     'installable': True,
 
-    'depends': ['product', 'purchase'],
+    'depends': ['product'],
 
     'data': [
         'security/ir.model.access.csv',
