@@ -6,7 +6,7 @@
         Add product tag functionality""",
 
     'description': """
-        Add product tag functionality
+        Add product tag functionality to product and Purchase order line
     """,
 
     'author': "Nuprod",
@@ -17,12 +17,11 @@
     "license": "AGPL-3",
     'installable': True,
 
-    'depends': ['product'],
+    'depends': ['product', 'purchase'],
 
     'data': [
         'security/ir.model.access.csv',
         'views/product_template_nuprod.xml',
         'views/product_tag_view_nuprod.xml',
-        #'views/templates.xml',
     ],
 }
