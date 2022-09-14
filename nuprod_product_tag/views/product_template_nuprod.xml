@@ -21,5 +21,15 @@
             </xpath>
       </field>
     </record>
+    <record model="ir.ui.view" id="product_product_nuprod_form">
+      <field name="name">product.product.nuprod.form</field>
+      <field name="model">product.product</field>
+      <field name="inherit_id" ref="product.product_normal_form_view"/>
+      <field name="arch" type="xml">
+            <xpath expr="//field[@name='default_code']" position="after">
+                <field name="product_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" optional="show"/>
+            </xpath>
+      </field>
+    </record>
     </data>
 </odoo>
