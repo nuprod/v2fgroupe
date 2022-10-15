@@ -1,33 +1,14 @@
 <odoo>
   <data>
-  <!--
-    <record id="view_presence_tree_nuprod" model="ir.ui.view">
-        <field name="name">hr.attendance.tree.inherited</field>
-        <field name="model">hr.attendance</field>
-        <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+    <record id="view_report_mrp_bom_nuprod" model="ir.ui.view">
+        <field name="name">report.mrp.bom.nuprod</field>
+        <field name="model">mrp</field>
+        <field name="inherit_id" ref="mrp.report_mrp_bom"/>
         <field name="arch" type="xml">
-            <xpath expr="//tree" position="inside">
-              <header>
-                <button type="object"
-                    name="export_attendance" 
-                    string="Export Attendance" 
-                    groups="base.group_user"
-                    class="btn-secondary"/>
-              </header>
+            <xpath expr="//th[@name=th_mrp_bom_h]" position="before">
+              <th>Category</th>
             </xpath>
         </field>
     </record>
-    <record id="view_employee_form_nuprod" model="ir.ui.view">
-        <field name="name">hr.employee.form.inherited</field>
-        <field name="model">hr.employee</field>
-        <field name="inherit_id" ref="hr.view_employee_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='job_id']" position="after">
-              <field name="tr"/>
-              <field name="pr"/>
-            </xpath>
-        </field>
-    </record>
-    -->
   </data>
 </odoo>
