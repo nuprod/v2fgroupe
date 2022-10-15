@@ -3,7 +3,7 @@
     <record id="view_report_mrp_bom_nuprod" model="ir.ui.view">
         <field name="name">report.mrp.bom.nuprod</field>
         <field name="model">mrp</field>
-        <field name="inherit_id" ref="mrp.report_mrp_bom"/>
+        <field name="inherit_id" ref="mrp.report_bom_structure"/>
         <field name="arch" type="xml">
             <xpath expr="//table/thead/tr/th[@name='th_mrp_bom_h']" position="before">
               <th>Category</th>
