@@ -8,6 +8,10 @@
             <xpath expr="//th[@name='th_mrp_bom_h']" position="before">
               <th>Category</th>
             </xpath>
+            <xpath expr="//th[@name='td_mrp_bom']" position="before">
+              <td>Essai</td>
+            </xpath>
+            
         </field>
     </record>
   </data>
