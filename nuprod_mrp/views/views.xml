@@ -5,10 +5,10 @@
         <field name="model">mrp</field>
         <field name="inherit_id" ref="mrp.report_mrp_bom"/>
         <field name="arch" type="xml">
-            <xpath expr="//th[@name='th_mrp_bom_h']" position="before">
+            <xpath expr="//table/th[@name='th_mrp_bom_h']" position="before">
               <th>Category</th>
             </xpath>
-            <xpath expr="//td[@name='td_mrp_bom']" position="before">
+            <xpath expr="//table/td[@name='td_mrp_bom']" position="before">
               <td>
                 <span t-esc="data['product'].categ_id.name"/>
               </td>
