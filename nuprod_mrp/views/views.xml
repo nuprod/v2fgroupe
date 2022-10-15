@@ -9,7 +9,9 @@
               <th>Category</th>
             </xpath>
             <xpath expr="//td[@name='td_mrp_bom']" position="before">
-              <td><span><t t-esc="data['product'].categ_id.name"/></span></td>
+              <td>
+                <span t-esc="data['product'].categ_id.name"/>
+              </td>
             </xpath>
         </field>
     </record>
