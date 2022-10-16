@@ -18,7 +18,7 @@ class ProductProductNuprod(models.Model):
         self._set_price_from_bom()
         return True
 
-class mrpBomStructure(models.Model):
+class mrpBomStructure(models.AbstractModel):
     _inherit = 'report.mrp.report_bom_structure'
     _description = 'Report Bom Structure Surcharge'
 
