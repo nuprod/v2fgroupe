@@ -7,6 +7,7 @@
 
     'description': """
         Add return True on button_bom_cost
+        Add category column in bom structure 
     """,
 
     'author': "NUprod",
