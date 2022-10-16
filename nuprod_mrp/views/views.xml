@@ -22,7 +22,7 @@
         <field name="arch" type="xml">
             <xpath expr="//td[@name='td_mrp_bom']" position="before">
               <td>
-                <span t-esc="l['prod_id'].categ_id.name"/>
+                <span t-esc="l['prod_id']"/>
               </td>
             </xpath>
         </field>
