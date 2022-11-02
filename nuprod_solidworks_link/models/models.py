@@ -25,7 +25,7 @@ class nuprodSolidworksLink(models.Model):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect(("185.138.148.117", 8000))
         datas_from_pdm = []
-        datas_odoo = []
+        fragment = []
         file_name = self.default_code
         message = str.encode(json.dumps({"filename": file_name, "mode": "readInfo"}))
         s.send(message)
@@ -36,10 +36,11 @@ class nuprodSolidworksLink(models.Model):
                 new_datas = datas_from_pdm[2:-3].split("), (")
                 for new_data in new_datas:
                     new_data = (new_data.split(", "))
-                    #datas_odoo.append({'drawing': new_data[1][-1:-1], 'date': new_data[4][-4:] + "-" + new_data[5] + "-" + new_data[6]})
-                    drawing_vals.append((0, 0, {"id_3D_base" : new_data[0], "drawing" : new_data[1][1:-1],
-                        "creation_date" : datetime.strptime((new_data[4][-4:] + "-" + new_data[5] + "-" + new_data[6][:1]), "%Y-%m-%d")}))
-            
+                    is_drawing = self.env["nuprod.solidworks.link"].search([("id_3D_base", "=", new_data[0])])
+                    # datas_odoo.append({'drawing': new_data[1][-1:-1], 'date': new_data[4][-4:] + "-" + new_data[5] + "-" + new_data[6]})
+                    if is_drawing.id is False:
+                        drawing_vals.append((0, 0, {"id_3D_base": new_data[0], "drawing": new_data[1][1:-1],
+                                            "creation_date": datetime.strptime((new_data[4][-4:] + "-" + new_data[5] + "-" + new_data[6][:1]), "%Y-%m-%d")}))
                 self.infos_3d_lines = drawing_vals
                 logger.info(drawing_vals)
             else:
@@ -59,10 +60,10 @@ class solidworksBase(models.Model):
     id_3D_base = fields.Integer()
     drawing = fields.Char("drawing")
     creation_date = fields.Date("Creation date")
-    
+
     def download_file(self):
         logger.error("Download File")
-        
+
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect(("185.138.148.117", 8000))
@@ -89,8 +90,8 @@ class solidworksBase(models.Model):
                 attachment = self.env['ir.attachment'].create({
                     'type': 'binary',
                     'name': drawingFilename,
-                    'res_model' : 'ir.actions.report',
-                    'res_name' : 'Drawing',
+                    'res_model': 'ir.actions.report',
+                    'res_name': 'Drawing',
                     'res_id': self[0].id,
                     'datas': base64.encodebytes(file),
                 })
@@ -98,9 +99,8 @@ class solidworksBase(models.Model):
                 return {
                     'name': 'Export Attendance ',
                     'type': 'ir.actions.act_url',
-                    'url': ("web/content/?model=ir.attachment&id=" +
-                            str(attachment.id) + "&download=true&"
-                                        "filename=" + drawingFilename ),
+                    'url': ("web/content/?model=ir.attachment&id=" + str(attachment.id) + "&download=true&"
+                            "filename=" + drawingFilename),
                     'target': 'self',
                 }
 
