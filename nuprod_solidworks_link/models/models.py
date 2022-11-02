@@ -29,10 +29,10 @@ class nuprodSolidworksLink(models.Model):
         file_name = self.default_code
         message = str.encode(json.dumps({"filename": file_name, "mode": "readInfo"}))
         s.send(message)
-        datas_from_pdm = s.recv(2024).decode()
-        if datas_from_pdm :
+        datas_from_pdm = s.recv(4096).decode()
+        if datas_from_pdm:
             drawing_vals = []
-            if datas_from_pdm[-1] == "#": 
+            if datas_from_pdm[-1] == "#":
                 new_datas = datas_from_pdm[2:-3].split("), (")
                 for new_data in new_datas:
                     new_data = (new_data.split(", "))
