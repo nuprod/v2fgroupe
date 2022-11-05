@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="nuprod_solidworks_link_form" model="ir.ui.view">
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_information']" position="after">
+                <page name="3dInfos" string="3D infos">
+                    <button
+                        class="btn btn-primary"
+                        name="file_info_pdm"
+                        string="Update"
+                        type="object"
+                        colspan="2"
+                    />
+                    <field name="infos_3d_lines">
+                        <tree string="3dInfos" editable="bottom">
+                            <field name="drawing"/>
+                            <field name="creation_date"/>
+                            <button
+                                class="btn-primary"
+                                name="download_file"
+                                string="Download File"
+                                type="object"
+                            />
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
