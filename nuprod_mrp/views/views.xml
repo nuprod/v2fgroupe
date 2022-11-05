@@ -1,31 +1,30 @@
 <odoo>
-  <data>
-    <record id="view_report_mrp_bom_nuprod" model="ir.ui.view">
-        <field name="name">report.mrp.bom.nuprod</field>
-        <field name="model">mrp</field>
-        <field name="inherit_id" ref="mrp.report_mrp_bom"/>
-        <field name="arch" type="xml">
-            <xpath expr="//th[@name='th_mrp_bom_h']" position="before">
-              <th>Category</th>
-            </xpath>
-            <xpath expr="//td[@name='td_mrp_bom']" position="before">
-              <td>
+<template id="report_mrp_bom_inherit_mrp_plm" inherit_id="mrp.report_mrp_bom">
+        <xpath expr="//th[@name='th_mrp_bom_h']" position="after">
+            <th>Category</th>
+            <th>Routes</th>
+        </xpath>
+        <xpath expr="//td[@name='td_mrp_bom']" position="after">
+            <td>
                 <span t-esc="data['product'].categ_id.name"/>
-              </td>
-            </xpath>
-        </field>
-    </record>
-    <record id="view_report_mrp_bom_line_nuprod" model="ir.ui.view">
-        <field name="name">report.mrp.bom.nuprod.line</field>
-        <field name="model">mrp</field>
-        <field name="inherit_id" ref="mrp.report_mrp_bom_line"/>
-        <field name="arch" type="xml">
-            <xpath expr="//td[@name='td_mrp_bom']" position="before">
-              <td>
-                <span t-esc="l['prod_id']"/>
-              </td>
-            </xpath>
-        </field>
-    </record>
-  </data>
+            </td>
+            <td>
+                <t t-foreach="data['product'].route_ids" t-as="route_id">
+                  <span t-esc="route_id.name"/>
+                </t>
+            </td>
+        </xpath>
+</template>
+<template id="report_mrp_bom_inherit_mrp_line" inherit_id="mrp.report_mrp_bom_line">
+        <xpath expr="//td[@name='td_mrp_bom']" position="after">
+          <td>
+            <span t-esc="l['categ_name']"/>
+          </td>
+          <td>
+            <t t-foreach="l['route_ids']" t-as="route_id">
+              <span t-esc="route_id.name"/>
+            </t>
+          </td>
+        </xpath>
+</template>
 </odoo>

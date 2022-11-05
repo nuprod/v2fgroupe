@@ -7,6 +7,7 @@
 
     'description': """
         Add return True on button_bom_cost
+        Add category column in bom structure 
     """,
 
     'author': "NUprod",
@@ -23,7 +24,7 @@
 
     # always loaded
     'data': [
-        #  'security/ir.model.access.csv',
+        #    'security/ir.model.access.csv',
             'views/views.xml',
         #  'views/templates.xml',
     ],
