@@ -7,7 +7,7 @@
         <xpath expr="//td[@name='td_mrp_bom']" position="after">
             <td>
                 <span t-esc="data['product'].categ_id.name"/>
-                <span t-esc="data['product'].route_ids" widget="many2many_tags"/>
+                <field name="data['product'].route_ids" widget="many2many_tags"/>
             </td>
         </xpath>
 </template>
