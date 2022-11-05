@@ -9,6 +9,15 @@
                 <span t-esc="data['product'].categ_id.name"/>
             </td>
         </xpath>
+        <xpath expr="//th[@name='th_mrp_bom_h']" position="after">
+            <th>Routes</th>
+        </xpath>
+
+        <xpath expr="//td[@name='td_mrp_bom']" position="after">
+            <td>
+                <span t-esc="data['product'].route_ids"/>
+            </td>
+        </xpath>
 </template>
 <template id="report_mrp_bom_inherit_mrp_line" inherit_id="mrp.report_mrp_bom_line">
         <xpath expr="//td[@name='td_mrp_bom']" position="after">
