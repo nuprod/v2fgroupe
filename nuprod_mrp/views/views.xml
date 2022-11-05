@@ -2,18 +2,12 @@
 <template id="report_mrp_bom_inherit_mrp_plm" inherit_id="mrp.report_mrp_bom">
         <xpath expr="//th[@name='th_mrp_bom_h']" position="after">
             <th>Category</th>
-        </xpath>
-        <xpath expr="//td[@name='td_mrp_bom']" position="after">
-            <td>
-                <span t-esc="data['product'].categ_id.name"/>
-            </td>
-        </xpath>
-        <xpath expr="//th[@name='th_mrp_bom_h']" position="after">
             <th>Routes</th>
         </xpath>
         <xpath expr="//td[@name='td_mrp_bom']" position="after">
             <td>
-                <span t-esc="data['product'].route_ids"/>
+                <span t-esc="data['product'].categ_id.name"/>
+                <span t-esc="data['product'].route_ids.id"/>
             </td>
         </xpath>
 </template>
@@ -21,6 +15,7 @@
         <xpath expr="//td[@name='td_mrp_bom']" position="after">
           <td>
             <span t-esc="l['categ_name']"/>
+            <span t-esc="l['route_ids']"/>
           </td>
         </xpath>
 </template>

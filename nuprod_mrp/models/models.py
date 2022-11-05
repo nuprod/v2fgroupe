@@ -52,7 +52,7 @@ class mrpBomStructure(models.AbstractModel):
                 'level': level or 0,
                 'total': sub_total,
                 'categ_name': line.product_id.categ_id.name,
-                'route_ids': line.product_id.route_ids,
+                'route_ids': line.product_id.route_ids.id,
                 'child_bom': line.child_bom_id.id,
                 'phantom_bom': line.child_bom_id and line.child_bom_id.type == 'phantom' or False,
                 'attachments': self.env['mrp.document'].search(['|', '&',
