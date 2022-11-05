@@ -9,7 +9,9 @@
                 <span t-esc="data['product'].categ_id.name"/>
             </td>
             <td>
-                <field name="data['product'].route_ids"/>
+                <t t-foreach="data['product'].route_ids" t-as="route_id">
+                  <span t-esc="route_id.name"/>
+                </t>
             </td>
         </xpath>
 </template>
@@ -19,7 +21,9 @@
             <span t-esc="l['categ_name']"/>
           </td>
           <td>
-            <field name="l['route_ids']"/>
+            <t t-foreach="l['route_ids']" t-as="route_id">
+              <span t-esc="route_id.name"/>
+            </t>
           </td>
         </xpath>
 </template>
