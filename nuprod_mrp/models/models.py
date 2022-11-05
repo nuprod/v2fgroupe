@@ -52,11 +52,11 @@ class mrpBomStructure(models.AbstractModel):
                 'level': level or 0,
                 'total': sub_total,
                 'categ_name': line.product_id.categ_id.name,
-                'route_ids': line.product_id.route_ids
+                'route_ids': line.product_id.route_ids,
                 'child_bom': line.child_bom_id.id,
                 'phantom_bom': line.child_bom_id and line.child_bom_id.type == 'phantom' or False,
                 'attachments': self.env['mrp.document'].search(['|', '&',
-                    ('res_model', '=', 'product.product'), ('res_id', '=', line.product_id.id), '&', ('res_model', '=', 'product.template'), ('res_id', '=', line.product_id.product_tmpl_id.id)]),
+                                                                ('res_model', '=', 'product.product'), ('res_id', '=', line.product_id.id), '&', ('res_model', '=', 'product.template'), ('res_id', '=', line.product_id.product_tmpl_id.id)]),
 
             })
             total += sub_total

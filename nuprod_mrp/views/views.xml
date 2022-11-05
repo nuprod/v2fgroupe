@@ -3,7 +3,6 @@
         <xpath expr="//th[@name='th_mrp_bom_h']" position="after">
             <th>Category</th>
         </xpath>
-
         <xpath expr="//td[@name='td_mrp_bom']" position="after">
             <td>
                 <span t-esc="data['product'].categ_id.name"/>
@@ -12,7 +11,6 @@
         <xpath expr="//th[@name='th_mrp_bom_h']" position="after">
             <th>Routes</th>
         </xpath>
-
         <xpath expr="//td[@name='td_mrp_bom']" position="after">
             <td>
                 <span t-esc="data['product'].route_ids"/>
