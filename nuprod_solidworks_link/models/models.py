@@ -49,7 +49,7 @@ class nuprodSolidworksLink(models.Model):
             raise UserError(_("Nothing in the PDM"))
         s.close()
 
-class nuprodSolidworksLink(models.Model):
+class nuprodSolidworksLinkProduct(models.Model):
 
     _inherit = "product.product"
 
