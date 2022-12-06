@@ -66,7 +66,7 @@ class nuprodSolidworksLinkProduct(models.Model):
         file_name = self.default_code
         message = str.encode(json.dumps({"filename": file_name, "mode": "readInfo"}))
         s.send(message)
-        datas_from_pdm = s.recv(4096).decode()
+        datas_from_pdm = s.recv(8192).decode()
         if datas_from_pdm:
             drawing_vals = []
             if datas_from_pdm[-1] == "#":
