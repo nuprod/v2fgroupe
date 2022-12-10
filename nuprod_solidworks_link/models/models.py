@@ -31,20 +31,19 @@ class nuprodSolidworksLink(models.Model):
         s.send(message)
         datas_from_pdm = s.recv(4096).decode()
         if datas_from_pdm:
+            while datas_from_pdm[-1] != '#':
+                datas_from_pdm += s.recv(4096).decode()
             drawing_vals = []
-            if datas_from_pdm[-1] == "#":
-                new_datas = datas_from_pdm[2:-3].split("), (")
-                for new_data in new_datas:
-                    new_data = (new_data.split(", "))
-                    is_drawing = self.env["nuprod.solidworks.link"].search([("id_3D_base", "=", new_data[0])])
-                    # datas_odoo.append({'drawing': new_data[1][-1:-1], 'date': new_data[4][-4:] + "-" + new_data[5] + "-" + new_data[6]})
-                    if is_drawing.id is False:
-                        drawing_vals.append((0, 0, {"id_3D_base": new_data[0], "drawing": new_data[1][1:-1],
-                                            "creation_date": datetime.strptime((new_data[4][-4:] + "-" + new_data[5] + "-" + new_data[6][:1]), "%Y-%m-%d")}))
-                self.infos_3d_lines = drawing_vals
-                logger.info(drawing_vals)
-            else:
-                raise UserError(_("File is not complete please advice Nuprod"))
+            new_datas = datas_from_pdm[2:-3].split("), (")
+            for new_data in new_datas:
+                new_data = (new_data.split(", "))
+                is_drawing = self.env["nuprod.solidworks.link"].search([("id_3D_base", "=", new_data[0])])
+                # datas_odoo.append({'drawing': new_data[1][-1:-1], 'date': new_data[4][-4:] + "-" + new_data[5] + "-" + new_data[6]})
+                if is_drawing.id is False:
+                    drawing_vals.append((0, 0, {"id_3D_base": new_data[0], "drawing": new_data[1][1:-1],
+                                        "creation_date": datetime.strptime((new_data[4][-4:] + "-" + new_data[5] + "-" + new_data[6][:1]), "%Y-%m-%d")}))
+            self.infos_3d_lines = drawing_vals
+            logger.info(drawing_vals)
         else:
             raise UserError(_("Nothing in the PDM"))
         s.close()
