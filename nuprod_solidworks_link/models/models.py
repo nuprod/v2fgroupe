@@ -25,7 +25,7 @@ class nuprodSolidworksLink(models.Model):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect(("185.138.148.117", 8000))
         datas_from_pdm = []
-        fragment = []
+        toDelete = []
         file_name = self.default_code
         message = str.encode(json.dumps({"filename": file_name, "mode": "readInfo"}))
         s.send(message)
@@ -42,10 +42,13 @@ class nuprodSolidworksLink(models.Model):
                 if is_drawing.id is False:
                     drawing_vals.append((0, 0, {"id_3D_base": new_data[0], "drawing": new_data[1][1:-1],
                                         "creation_date": datetime.strptime((new_data[4][-4:] + "-" + new_data[5] + "-" + new_data[6][:1]), "%Y-%m-%d")}))
-            for record in drawing_vals:
-                for record2 in drawing_vals:
-                    if (record[2]['drawing'] == record2[2]['drawing']):
-                        drawing_vals.remove(record2)
+            lenDrawing = len(drawing_vals)
+            for i in range(0 , lenDrawing):
+                for j in range(i + 1, lenDrawing):
+                    if (drawing_vals[i][2]['drawing'] == drawing_vals[j][2]['drawing']):
+                        toDelete.append(j)
+            for i in sorted(toDelete, reverse=True):
+                del drawing_vals[i]
             self.infos_3d_lines = drawing_vals
             logger.info(drawing_vals)
         else:
