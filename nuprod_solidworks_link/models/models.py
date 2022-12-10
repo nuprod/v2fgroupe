@@ -47,10 +47,9 @@ class nuprodSolidworksLink(models.Model):
                 for j in range(i + 1, lenDrawing):
                     if (drawing_vals[i][2]['drawing'] == drawing_vals[j][2]['drawing']):
                         toDelete.append(j)
-            for i in sorted(toDelete, reverse=True):
-                del drawing_vals[i]
-            self.infos_3d_lines = drawing_vals
-            logger.info(drawing_vals)
+            new_drawing_vals = [j for i, j in enumerate(drawing_vals) if i not in toDelete]
+            self.infos_3d_lines = new_drawing_vals
+            logger.info(new_drawing_vals)
         else:
             raise UserError(_("Nothing in the PDM"))
         s.close()
