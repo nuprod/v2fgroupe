@@ -46,6 +46,7 @@ class nuprodSolidworksLink(models.Model):
                 for record2 in drawing_vals:
                     if (record[2]['drawing'] == record2[2]['drawing']):
                         drawing_vals.remove(record2)
+            self.infos_3d_lines = []
             self.infos_3d_lines = drawing_vals
             logger.info(drawing_vals)
         else:
