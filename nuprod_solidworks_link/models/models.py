@@ -42,6 +42,10 @@ class nuprodSolidworksLink(models.Model):
                 if is_drawing.id is False:
                     drawing_vals.append((0, 0, {"id_3D_base": new_data[0], "drawing": new_data[1][1:-1],
                                         "creation_date": datetime.strptime((new_data[4][-4:] + "-" + new_data[5] + "-" + new_data[6][:1]), "%Y-%m-%d")}))
+            for record in drawing_vals:
+                for record2 in drawing_vals:
+                    if (record[2]['drawing'] == record2[2]['drawing']):
+                        drawing_vals.remove(record2)
             self.infos_3d_lines = drawing_vals
             logger.info(drawing_vals)
         else:
