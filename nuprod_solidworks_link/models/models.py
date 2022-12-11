@@ -22,32 +22,44 @@ class nuprodSolidworksLink(models.Model):
 
     def file_info_pdm(self):
         logger.error("Nuprod Solidworks start")
+        # connection au server de fichier sur le pdm serveur
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect(("185.138.148.117", 8000))
+        # init des variables
         datas_from_pdm = []
         toDelete = []
         file_name = self.default_code
+        # envoi de la requette
         message = str.encode(json.dumps({"filename": file_name, "mode": "readInfo"}))
         s.send(message)
+        # reception de la réponse
         datas_from_pdm = s.recv(4096).decode()
+        # si ça répond
         if datas_from_pdm:
+            # tant qu'on à pas la fin du message
             while datas_from_pdm[-1] != '#':
                 datas_from_pdm += s.recv(4096).decode()
             drawing_vals = []
+            # on éclate la réponse 
             new_datas = datas_from_pdm[2:-3].split("), (")
             for new_data in new_datas:
+                # on éclate en ligne
                 new_data = (new_data.split(", "))
+                # si la ligne n'est pas crée
                 is_drawing = self.env["nuprod.solidworks.link"].search([("id_3D_base", "=", new_data[0])])
                 # datas_odoo.append({'drawing': new_data[1][-1:-1], 'date': new_data[4][-4:] + "-" + new_data[5] + "-" + new_data[6]})
                 if is_drawing.id is False:
+                    # on la crée
                     drawing_vals.append((0, 0, {"id_3D_base": new_data[0], "drawing": new_data[1][1:-1],
                                         "creation_date": datetime.strptime((new_data[4][-4:] + "-" + new_data[5] + "-" + new_data[6][:1]), "%Y-%m-%d")}))
             lenDrawing = len(drawing_vals)
-            for i in range(0 , lenDrawing):
+            # je traite les doublons
+            for i in range(0, lenDrawing):
                 for j in range(i + 1, lenDrawing):
                     if (drawing_vals[i][2]['drawing'] == drawing_vals[j][2]['drawing']):
                         toDelete.append(j)
             new_drawing_vals = [j for i, j in enumerate(drawing_vals) if i not in toDelete]
+            # on envoi les lignes
             self.infos_3d_lines = new_drawing_vals
             logger.info(new_drawing_vals)
         else:
@@ -64,29 +76,46 @@ class nuprodSolidworksLinkProduct(models.Model):
 
     def file_info_pdm(self):
         logger.error("Nuprod Solidworks start")
+        # connection au server de fichier sur le pdm serveur
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect(("185.138.148.117", 8000))
+        # init des variables
         datas_from_pdm = []
-        fragment = []
+        toDelete = []
         file_name = self.default_code
+        # envoi de la requette
         message = str.encode(json.dumps({"filename": file_name, "mode": "readInfo"}))
         s.send(message)
-        datas_from_pdm = s.recv(8192).decode()
+        # reception de la réponse
+        datas_from_pdm = s.recv(4096).decode()
+        # si ça répond
         if datas_from_pdm:
+            # tant qu'on à pas la fin du message
+            while datas_from_pdm[-1] != '#':
+                datas_from_pdm += s.recv(4096).decode()
             drawing_vals = []
-            if datas_from_pdm[-1] == "#":
-                new_datas = datas_from_pdm[2:-3].split("), (")
-                for new_data in new_datas:
-                    new_data = (new_data.split(", "))
-                    is_drawing = self.env["nuprod.solidworks.link"].search([("id_3D_base", "=", new_data[0])])
-                    # datas_odoo.append({'drawing': new_data[1][-1:-1], 'date': new_data[4][-4:] + "-" + new_data[5] + "-" + new_data[6]})
-                    if is_drawing.id is False:
-                        drawing_vals.append((0, 0, {"id_3D_base": new_data[0], "drawing": new_data[1][1:-1],
-                                            "creation_date": datetime.strptime((new_data[4][-4:] + "-" + new_data[5] + "-" + new_data[6][:1]), "%Y-%m-%d")}))
-                self.infos_3d_lines = drawing_vals
-                logger.info(drawing_vals)
-            else:
-                raise UserError(_("File is not complete please advice Nuprod"))
+            # on éclate la réponse 
+            new_datas = datas_from_pdm[2:-3].split("), (")
+            for new_data in new_datas:
+                # on éclate en ligne
+                new_data = (new_data.split(", "))
+                # si la ligne n'est pas crée
+                is_drawing = self.env["nuprod.solidworks.link"].search([("id_3D_base", "=", new_data[0])])
+                # datas_odoo.append({'drawing': new_data[1][-1:-1], 'date': new_data[4][-4:] + "-" + new_data[5] + "-" + new_data[6]})
+                if is_drawing.id is False:
+                    # on la crée
+                    drawing_vals.append((0, 0, {"id_3D_base": new_data[0], "drawing": new_data[1][1:-1],
+                                        "creation_date": datetime.strptime((new_data[4][-4:] + "-" + new_data[5] + "-" + new_data[6][:1]), "%Y-%m-%d")}))
+            lenDrawing = len(drawing_vals)
+            # je traite les doublons
+            for i in range(0, lenDrawing):
+                for j in range(i + 1, lenDrawing):
+                    if (drawing_vals[i][2]['drawing'] == drawing_vals[j][2]['drawing']):
+                        toDelete.append(j)
+            new_drawing_vals = [j for i, j in enumerate(drawing_vals) if i not in toDelete]
+            # on envoi les lignes
+            self.infos_3d_lines = new_drawing_vals
+            logger.info(new_drawing_vals)
         else:
             raise UserError(_("Nothing in the PDM"))
         s.close()
@@ -139,7 +168,7 @@ class solidworksBase(models.Model):
                 })
 
                 return {
-                    'name': 'Export Attendance ',
+                    'name': 'Drawing' + str(drawingFilename),
                     'type': 'ir.actions.act_url',
                     'url': ("web/content/?model=ir.attachment&id=" + str(attachment.id) + "&download=true&"
                             "filename=" + drawingFilename),
